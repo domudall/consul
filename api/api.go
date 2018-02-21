@@ -101,6 +101,9 @@ type QueryOptions struct {
 	// be provided for filtering.
 	NodeMeta map[string]string
 
+	// ServiceMeta is used to provide service metadata to query string params
+	ServiceMeta map[string]string
+
 	// RelayFactor is used in keyring operations to cause reponses to be
 	// relayed back to the sender through N other random nodes. Must be
 	// a value from 0 to 5 (inclusive).
@@ -542,6 +545,11 @@ func (r *request) setQueryOptions(q *QueryOptions) {
 	if len(q.NodeMeta) > 0 {
 		for key, value := range q.NodeMeta {
 			r.params.Add("node-meta", key+":"+value)
+		}
+	}
+	if len(q.ServiceMeta) > 0 {
+		for key, value := range q.ServiceMeta {
+			r.params.Add("service-meta", key+":"+value)
 		}
 	}
 	if q.RelayFactor != 0 {
